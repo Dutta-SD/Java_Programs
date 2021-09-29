@@ -1,2 +1,1 @@
-# FocalMix_Implementation
-Focal Mix Implementation
+# Java Programs
