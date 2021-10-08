@@ -1,3 +1,5 @@
+package Car;
+
 class Car {
     int x, y, z;
 
