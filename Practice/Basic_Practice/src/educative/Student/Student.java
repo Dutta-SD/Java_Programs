@@ -23,5 +23,17 @@ public class Student {
 
     public double calcTotal(){
         return this.getMarks(1) + this.getMarks(2);
-    }   
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getMark1() {
+        return mark1;
+    }
+
+    public double getMark2() {
+        return mark2;
+    }
 }
