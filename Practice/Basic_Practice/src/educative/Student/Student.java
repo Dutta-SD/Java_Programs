@@ -5,7 +5,7 @@ public class Student {
     private double mark1, mark2;
 
     public Student(){
-        this.name = null;
+        this.name = "";
         this.mark1 = 0.0;
         this.mark2 = 0.0;
     }
@@ -23,5 +23,5 @@ public class Student {
 
     public double calcTotal(){
         return this.getMarks(1) + this.getMarks(2);
-    }    
+    }   
 }
