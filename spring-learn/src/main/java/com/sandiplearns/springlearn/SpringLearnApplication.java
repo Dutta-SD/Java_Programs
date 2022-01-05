@@ -1,19 +1,18 @@
 package com.sandiplearns.springlearn;
 
 import com.sandiplearns.springlearn.game.GameRunner;
-import com.sandiplearns.springlearn.game.MarioGame;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class SpringLearnApplication {
 
 	public static void main(String[] args) {
-		// SpringApplication.run(SpringLearnApplication.class, args);
-		MarioGame game = new MarioGame();
-		// For other Game
-		// SuperContra game = new SuperContra();
-		GameRunner runner = new GameRunner(game);
+		ConfigurableApplicationContext context = SpringApplication.run(SpringLearnApplication.class, args);
+
+		GameRunner runner = context.getBean(GameRunner.class);
 
 		runner.run();
 

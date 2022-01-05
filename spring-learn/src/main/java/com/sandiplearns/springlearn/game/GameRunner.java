@@ -1,10 +1,15 @@
 package com.sandiplearns.springlearn.game;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class GameRunner {
     // Tight Coupling we need static datatypes
-    private MarioGame game;
+    @Autowired
+    private GamingConsole game;
 
-    public GameRunner(MarioGame game) {
+    public GameRunner(GamingConsole game) {
         this.game = game;
     }
 
