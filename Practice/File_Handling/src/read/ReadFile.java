@@ -17,6 +17,7 @@ public class ReadFile {
             while(myReader.hasNextLine()){
                 System.out.println(myReader.nextLine());
             }
+            myReader.close();
 
         } catch (IOException e) {
             System.out.println("Exception thrown");
