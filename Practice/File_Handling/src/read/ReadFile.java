@@ -14,7 +14,7 @@ public class ReadFile {
             System.out.println(myObjFile.lastModified());
             System.out.println(myObjFile.canRead());
 
-            while(myReader.hasNextLine()){
+            while (myReader.hasNextLine()) {
                 System.out.println(myReader.nextLine());
             }
             myReader.close();
