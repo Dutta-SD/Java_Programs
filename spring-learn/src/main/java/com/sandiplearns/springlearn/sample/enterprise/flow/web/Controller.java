@@ -1,18 +1,10 @@
-package com.sandiplearns.springlearn.sample.enterprise.flow;
+package com.sandiplearns.springlearn.sample.enterprise.flow.web;
+
+import com.sandiplearns.springlearn.sample.enterprise.flow.business.BusinessService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-// Business Logic
-@Component
-class BusinessService {
-    public long calculateSum() {
-        return 150;
-    }
-
-}
 
 // return in right format
 // Controller is a specialised component
@@ -22,15 +14,11 @@ public class Controller {
     @Autowired
     private BusinessService businessService;
 
+    // API endpoint
     @GetMapping("/sum")
     public long displaySum() {
         // use business service
         return businessService.calculateSum();
     }
-
-}
-
-// get data
-class DataService {
 
 }
