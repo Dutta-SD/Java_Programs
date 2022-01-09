@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataService {
     public List<Integer> retrieveData() {
-        return Arrays.asList(12, 24, 56, 78, 90);
+        return Arrays.asList(12, -24, 56, 78, 90);
     }
 
 }
