@@ -13,4 +13,9 @@ public class MainController {
 
 	}
 
+	@RequestMapping("/welcome")
+	public String welcome() {
+		return "welcome";
+	}
+
 }

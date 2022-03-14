@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-This is home page.
-
+<h1>This is title of the page</h1>
+<p>loren ipsum</p>
 </body>
 </html>
