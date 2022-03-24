@@ -1,20 +1,20 @@
 package com.sandip.firstrest.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sandip.firstrest.dao.BookRepository;
 import com.sandip.firstrest.entities.Book;
 
 /*
+ * OLD CODE 
+ * ************************************************************
  * @Component - Spring Manages
  * We can also use @Service
- */
-@Component
-public class BookService {
-	static private List<Book> list = new ArrayList<Book>();
+ * 
+ * 	static private List<Book> list = new ArrayList<Book>();
 	static {
 		list.add(new Book(12, "Python guide", "ABC"));
 		list.add(new Book(13, "PHP guide", "ABC"));
@@ -22,41 +22,42 @@ public class BookService {
 		list.add(new Book(15, "Go guide", "ABC"));
 		list.add(new Book(16, "Docker guide", "ABC"));
 	}
+	
+ * ************************************************************
+ * Save and UPDATE does same functionality. If book exists and we again save it, 
+ * it will just update the entry. We do not need to do anything else
+ */
+@Component
+public class BookService {
 
-//	methods for get all books
+	@Autowired
+	private BookRepository bookRepository;
+
+	// methods for get all books
 	public List<Book> getAllBooks() {
-		return list;
+		List<Book> listOfBooks = (List<Book>) bookRepository.findAll();
+		return listOfBooks;
 	}
 
-// get single book by id
+	// get single book by id
 	public Book getBookById(int id) {
-//		Stream API one liner
-//		Exception may occur, handle it later...
-		Book book = null;
-		book = list.stream().filter(e -> e.getId() == id).findFirst().get();
-
-		return book;
-
+		return bookRepository.findById(id);
 	}
 
+	// Assumption -- id is same for both previous and updated book
 	public void addBook(Book b) {
-		list.add(b);
+		bookRepository.save(b);
 	}
 
-//	Delete a book Via Stream API
-	public void deleteBook(int bId) {
-		list = list.stream().filter(book -> book.getId() != bId).collect(Collectors.toList());
+	// Delete a book Via Stream API
+	public void deleteBook(int bookId) {
+		bookRepository.deleteById(bookId);
 	}
 
-//	Update book
+	// Update book
 	public void updateBook(Book book, int bookId) {
-//		Pass a book and book id
-		list = list.stream().map(bk -> {
-			if (book.getId() == bookId) {
-				return book;
-			}
-			return bk;
-		}).collect(Collectors.toList());
+		// Shady
+		book.setId(bookId);
+		bookRepository.save(book);
 	}
-
 }
