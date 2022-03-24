@@ -2,6 +2,7 @@ package com.sandip.firstrest.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -36,6 +37,26 @@ public class BookService {
 
 		return book;
 
+	}
+
+	public void addBook(Book b) {
+		list.add(b);
+	}
+
+//	Delete a book Via Stream API
+	public void deleteBook(int bId) {
+		list = list.stream().filter(book -> book.getId() != bId).collect(Collectors.toList());
+	}
+
+//	Update book
+	public void updateBook(Book book, int bookId) {
+//		Pass a book and book id
+		list = list.stream().map(bk -> {
+			if (book.getId() == bookId) {
+				return book;
+			}
+			return bk;
+		}).collect(Collectors.toList());
 	}
 
 }
