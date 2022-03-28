@@ -1,8 +1,13 @@
 package com.sandip.firstrest.controllers;
 
+import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +22,7 @@ import com.sandip.firstrest.entities.Course;
 
 @RestController
 @RequestMapping("/courses")
+@CrossOrigin
 public class CourseController {
 
 	@Autowired
@@ -44,7 +50,11 @@ public class CourseController {
 
 	@DeleteMapping("/{courseId}")
 	public void deleteCourse(@PathVariable(name = "courseId") long courseId) {
-		courseRepository.deleteById(courseId);
+		try {
+			courseRepository.deleteById(courseId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

@@ -14,10 +14,11 @@ public class Course {
 	private String description;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "courseId")
 	private long id;
 
+//	@Column(name = "title")
 	private String name;
 
 	public Course() {
