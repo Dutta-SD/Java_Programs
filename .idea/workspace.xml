@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="78fa99d2-ed3e-4cf7-b265-1fe475822ffc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/config/ModelMapperConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/controllers/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/exceptions/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/exceptions/ResourceNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/payloads/ApiResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TutorialsPractice/Practice/learnmultiproc/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/TutorialsPractice/Practice/learnmultiproc/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TutorialsPractice/Practice/learnmultiproc/.project" beforeDir="false" afterPath="$PROJECT_DIR$/TutorialsPractice/Practice/learnmultiproc/.project" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TutorialsPractice/Practice/learnmultiproc/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/TutorialsPractice/Practice/learnmultiproc/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TutorialsPractice/mypsql/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/TutorialsPractice/mypsql/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TutorialsPractice/mypsql/.project" beforeDir="false" afterPath="$PROJECT_DIR$/TutorialsPractice/mypsql/.project" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TutorialsPractice/mypsql/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/TutorialsPractice/mypsql/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TutorialsPractice/sandip/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/TutorialsPractice/sandip/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TutorialsPractice/sandip/.settings/org.eclipse.core.resources.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/TutorialsPractice/sandip/.settings/org.eclipse.core.resources.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog_app_apis/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog_app_apis/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/payloads/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/payloads/UserDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/services/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog_app_apis/src/main/java/edu/sandip/blog_app_apis/services/impl/UserServiceImpl.java" afterDir="false" />
-    </list>
+    <list default="true" id="78fa99d2-ed3e-4cf7-b265-1fe475822ffc" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,6 +34,7 @@
       <workItem from="1649154629178" duration="11000" />
       <workItem from="1649154669438" duration="192000" />
       <workItem from="1649578735704" duration="3000" />
+      <workItem from="1649658534381" duration="2000" />
     </task>
     <servers />
   </component>
