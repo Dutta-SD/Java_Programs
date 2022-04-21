@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -23,4 +24,14 @@ public class Category {
 
     @Column(name = "description", length = 100)
     private String categoryDescription;
+
+
+    /* One Category has multiple posts associated with it. Thus, @OneToMany */
+    /* Mapped by -- The field that will be mapped in the other entity */
+    /* Cascade -- If parent removed then remove child  */
+    /* fetch -- Lazy loading.. No unnecessary */
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Post> posts;
+
 }
