@@ -15,68 +15,68 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public UserDTO createUser(UserDTO user) {
-        User savedUser = userRepository.save(dtoToUser(user));
-        return userToDto(savedUser);
+        User savedUser = userRepository.save(convertUserDTOtoUser(user));
+        return convertUserToUserDTO(savedUser);
     }
 
     @Override
     public UserDTO updateUser(UserDTO userdto, Integer userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        updateUserFromDto(userdto, user);
+        User updatedUser = userRepository.save(user);
+        return convertUserToUserDTO(updatedUser);
+    }
+
+    private void updateUserFromDto(UserDTO userdto, User user) {
         user.setId(userdto.getId());
         user.setEmail(userdto.getEmail());
         user.setPassword(userdto.getPassword());
         user.setName(userdto.getName());
         user.setAbout(userdto.getAbout());
-        User updatedUser = userRepository.save(user);
-        return userToDto(updatedUser);
     }
 
     @Override
     public UserDTO getUserById(Integer userId) {
-        User userById = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-        return userToDto(userById);
+        User userById = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        return convertUserToUserDTO(userById);
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream().map(e -> userToDto(e)).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(this::convertUserToUserDTO).collect(Collectors.toList());
     }
 
     @Override
     public void deleteUser(Integer userId) {
         /* Written like this to handle exception and raise issues */
 
-        User userbyId = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        User userbyId = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
         userRepository.delete(userbyId);
     }
 
-    private User dtoToUser(UserDTO userDTO) {
-//        User user = new User();
-//        user.setId(userDTO.getId());
-//        user.setAbout(userDTO.getAbout());
-//        user.setEmail(userDTO.getEmail());
-//        user.setName(userDTO.getName());
-//        user.setPassword(userDTO.getPassword());
-        User user = modelMapper.map(userDTO, User.class);
-        return user;
+    private User convertUserDTOtoUser(final UserDTO userDTO) {
+        return modelMapper.map(userDTO, User.class);
     }
 
-    private UserDTO userToDto(User user) {
-//        UserDTO userDTO = new UserDTO();
-//        userDTO.setId(user.getId());
-//        userDTO.setAbout(user.getAbout());
-//        userDTO.setEmail(user.getEmail());
-//        userDTO.setName(user.getName());
-//        userDTO.setPassword(user.getPassword());
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        return userDTO;
+    private UserDTO convertUserToUserDTO(final User user) {
+        return modelMapper.map(user, UserDTO.class);
     }
 }

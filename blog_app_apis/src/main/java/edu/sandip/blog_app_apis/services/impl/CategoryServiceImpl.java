@@ -5,6 +5,7 @@ import edu.sandip.blog_app_apis.exceptions.ResourceNotFoundException;
 import edu.sandip.blog_app_apis.payloads.CategoryDTO;
 import edu.sandip.blog_app_apis.repositories.CategoryRepository;
 import edu.sandip.blog_app_apis.services.CategoryService;
+import lombok.NonNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,18 @@ import java.util.stream.Collectors;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public CategoryServiceImpl(
+            @NonNull final CategoryRepository categoryRepository,
+            @NonNull final ModelMapper modelMapper
+    ) {
+        this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
@@ -30,18 +38,26 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO readSingleCategoryItem(Integer categoryId) {
-        Category categoryById = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
+        Category categoryById = categoryRepository
+                .findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
         return modelMapper.map(categoryById, CategoryDTO.class);
     }
 
     @Override
     public List<CategoryDTO> readAllCategories() {
-        return categoryRepository.findAll().stream().map(category -> modelMapper.map(category, CategoryDTO.class)).collect(Collectors.toList());
+        return categoryRepository
+                .findAll()
+                .stream()
+                .map(category -> modelMapper.map(category, CategoryDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
     public CategoryDTO updateCategory(CategoryDTO categoryDTO, Integer categoryId) {
-        Category toModifyCategory = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
+        Category toModifyCategory = categoryRepository
+                .findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
         modelMapper.map(categoryDTO, toModifyCategory);
         toModifyCategory.setCategoryId(categoryId);
         Category updatedCategory = categoryRepository.save(toModifyCategory);
@@ -50,9 +66,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Integer categoryId) {
-        Category toModifyCategory = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
+        Category toModifyCategory = categoryRepository
+                .findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
         categoryRepository.delete(toModifyCategory);
-//        categoryRepository.deleteById(categoryId);
-
     }
 }

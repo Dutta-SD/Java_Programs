@@ -1,7 +1,5 @@
 package edu.sandip.blog_app_apis.payloads;
 
-import edu.sandip.blog_app_apis.entities.Category;
-import edu.sandip.blog_app_apis.entities.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +16,6 @@ public class PostDTO {
     private String imageName;
     private Date addedDate;
 
-    private Category category;
-    private User user;
+    private CategoryDTO category;
+    private UserDTO user;
 }
