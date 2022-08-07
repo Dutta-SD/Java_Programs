@@ -1,7 +1,9 @@
 package edu.sandip.blog_app_apis.controllers;
 
+import edu.sandip.blog_app_apis.payloads.ApiResponse;
 import edu.sandip.blog_app_apis.payloads.UserDTO;
 import edu.sandip.blog_app_apis.services.UserService;
+import edu.sandip.blog_app_apis.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,10 +52,16 @@ public class UserController {
 
     /*DELETE*/
     @DeleteMapping("/{userId}")
-    public ResponseEntity<UserDTO> deleteUserById(@PathVariable Integer userId) {
+    public ResponseEntity<ApiResponse> deleteUserById(@PathVariable Integer userId) {
         userService.deleteUser(userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(getSuccessfulDeleteApiResponse());
 
+    }
+
+    private ApiResponse getSuccessfulDeleteApiResponse() {
+        ApiResponse successDeletedResponse = new ApiResponse();
+        successDeletedResponse.setMessage(Constants.RESOURCE_DELETED_SUCCESSFULLY);
+        return successDeletedResponse;
     }
 
     /*GET*/

@@ -1,9 +1,13 @@
 package edu.sandip.blog_app_apis.controllers;
 
 
+import edu.sandip.blog_app_apis.payloads.ApiResponse;
+import edu.sandip.blog_app_apis.payloads.PaginationAndSortingParameters;
 import edu.sandip.blog_app_apis.payloads.PostApiGetMethodResponse;
 import edu.sandip.blog_app_apis.payloads.PostDTO;
+import edu.sandip.blog_app_apis.services.FileService;
 import edu.sandip.blog_app_apis.services.PostService;
+import edu.sandip.blog_app_apis.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 /* TODO: Replace paths with @RequestParam */
 @RestController
@@ -25,10 +31,12 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final FileService fileService;
 
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, FileService fileService) {
         this.postService = postService;
+        this.fileService = fileService;
     }
 
     @PostMapping("/user/{userId}/categories/{categoryId}/posts")
@@ -41,16 +49,34 @@ public class PostController {
 
     /* get by user */
     @GetMapping("/user/{userId}/posts")
-    public ResponseEntity<List<PostDTO>> getAllPostsBySingleUser(@PathVariable Integer userId) {
-        List<PostDTO> listOfAllPostsBySingleUser = postService.getPostsByUser(userId);
+    public ResponseEntity<PostApiGetMethodResponse> getAllPostsBySingleUser(@PathVariable Integer userId,
+                                                                            PaginationAndSortingParameters paginationAndSortingParameters) {
+        if (noSortByParamInURL(paginationAndSortingParameters)) {
+            paginationAndSortingParameters.setSortBy(Constants.ALL_POSTS_DEFAULT_SORT_COLUMN);
+        }
+        PostApiGetMethodResponse listOfAllPostsBySingleUser = postService.getPostsByUser(userId,
+                paginationAndSortingParameters.getPageNumber(),
+                paginationAndSortingParameters.getPageSize(),
+                paginationAndSortingParameters.getSortBy());
         return ResponseEntity.ok(listOfAllPostsBySingleUser);
+    }
+
+    private boolean noSortByParamInURL(PaginationAndSortingParameters paginationAndSortingParameters) {
+        return Objects.isNull(paginationAndSortingParameters.getSortBy());
     }
 
     /* get by category */
     @GetMapping("/categories/{categoryId}/posts")
-    public ResponseEntity<List<PostDTO>> getAllPostsBySingleCategory(@PathVariable Integer categoryId) {
-        List<PostDTO> listOfAllPostsInSingleCategory = postService.getPostsByCategory(categoryId);
-        return ResponseEntity.ok(listOfAllPostsInSingleCategory);
+    public ResponseEntity<PostApiGetMethodResponse> getAllPostsBySingleCategory(@PathVariable Integer categoryId,
+                                                                                PaginationAndSortingParameters paginationAndSortingParameters) {
+        if (noSortByParamInURL(paginationAndSortingParameters)) {
+            paginationAndSortingParameters.setSortBy(Constants.CATEGORY_DEFAULT_SORT_COLUMN);
+        }
+        PostApiGetMethodResponse allPostsInSingleCategory = postService.getPostsByCategory(categoryId,
+                paginationAndSortingParameters.getPageNumber(),
+                paginationAndSortingParameters.getPageSize(),
+                paginationAndSortingParameters.getSortBy());
+        return ResponseEntity.ok(allPostsInSingleCategory);
     }
 
     @GetMapping("/posts/{postId}")
@@ -61,10 +87,16 @@ public class PostController {
 
     @GetMapping("/posts")
     public ResponseEntity<PostApiGetMethodResponse> getAllPosts(
-            @RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-            @RequestParam(name = "pageSize", defaultValue = "5", required = false) Integer pageSize
+            PaginationAndSortingParameters paginationAndSortingParameters
     ) {
-        return ResponseEntity.ok(postService.getAllPost(pageNumber, pageSize));
+        if (noSortByParamInURL(paginationAndSortingParameters)) {
+            paginationAndSortingParameters.setSortBy(Constants.ALL_POSTS_DEFAULT_SORT_COLUMN);
+        }
+        return ResponseEntity.ok(postService.getAllPost(
+                paginationAndSortingParameters.getPageNumber(),
+                paginationAndSortingParameters.getPageSize(),
+                paginationAndSortingParameters.getSortBy())
+        );
     }
 
     @PutMapping("/posts/{postId}")
@@ -73,8 +105,30 @@ public class PostController {
     }
 
     @DeleteMapping("/posts/{postId}")
-    public void deletePostById(@PathVariable Integer postId) {
+    public ResponseEntity<ApiResponse> deletePostById(@PathVariable Integer postId) {
         postService.deletePost(postId);
+        return ResponseEntity.ok(getApiResponseWithMessage(Constants.RESOURCE_DELETED_SUCCESSFULLY));
     }
 
+    @GetMapping("/posts/search")
+    public List<PostDTO> searchForKeywordInTitle(@RequestParam(name = Constants.KEYWORD) String keyword) {
+        return postService.searchPosts(keyword);
+    }
+
+    private ApiResponse getApiResponseWithMessage(String apiMessage) {
+        ApiResponse successDeletedResponse = new ApiResponse();
+        successDeletedResponse.setMessage(apiMessage);
+        return successDeletedResponse;
+    }
+
+    @PostMapping("/posts/image/upload/{postId}")
+    public ResponseEntity<PostDTO> uploadPostImage(@PathVariable Integer postId,
+                                                   @RequestParam("image") MultipartFile image) {
+        PostDTO postById = postService.getPostById(postId);
+        // images/file.xyz like format
+        String fileName = fileService.uploadImage(Constants.IMAGE_UPLOAD_FOLDER, image);
+        postById.setImageName(fileName);
+        PostDTO updatedPostDTO = postService.updatePost(postById, postId);
+        return ResponseEntity.ok(updatedPostDTO);
+    }
 }

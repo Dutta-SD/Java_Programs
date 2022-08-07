@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -84,8 +85,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostApiGetMethodResponse getAllPost(Integer pageNumber, Integer pageSize) {
-        Page<Post> pagePost = postRepo.findAll(PageRequest.of(pageNumber, pageSize));
+    public PostApiGetMethodResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy) {
+        Page<Post> pagePost = postRepo.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)));
         return buildPaginatedGetResponse(pagePost);
     }
 
@@ -96,6 +97,7 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostApiGetMethodResponse buildPaginatedGetResponse(Page<Post> pagePost) {
+        System.out.println(pagePost.getContent());
         return PostApiGetMethodResponse.builder()
                 .content(getPostDTOList(pagePost.getContent()))
                 .pageNumber(pagePost.getNumber())
@@ -115,23 +117,29 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getPostsByCategory(Integer categoryId) {
-        Category category = categoryRepository.findById(categoryId).orElseThrow(
-                () -> new ResourceNotFoundException("category", "categoryId", categoryId)
-        );
-        return getPostDTOList(postRepo.findByCategory(category));
+    public PostApiGetMethodResponse getPostsByCategory(
+            Integer categoryId, Integer pageNumber, Integer pageSize, String sortBy
+    ) {
+        Page<Post> pagePost = postRepo
+                .findByCategory_CategoryId(categoryId, PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)))
+                .orElseThrow(() -> new ResourceNotFoundException("category", "categoryId", categoryId));
+        return buildPaginatedGetResponse(pagePost);
     }
 
     @Override
-    public List<PostDTO> getPostsByUser(Integer userId) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new ResourceNotFoundException("user", "user id", userId)
-        );
-        return getPostDTOList(postRepo.findByUser(user));
+    public PostApiGetMethodResponse getPostsByUser(
+            Integer userId, Integer pageNumber, Integer pageSize, String sortBy
+    ) {
+        Page<Post> pagePost = postRepo
+                .findByUser_Id(userId, PageRequest.of(pageNumber, pageSize, Sort.by(sortBy)))
+                .orElseThrow(() -> new ResourceNotFoundException("user", "userId", userId));
+        return buildPaginatedGetResponse(pagePost);
     }
 
     @Override
-    public List<Post> searchPosts(String keyword) {
-        return null;
+    public List<PostDTO> searchPosts(String keyword) {
+        return postRepo.findByTitleContainingIgnoreCase(keyword)
+                .stream().map((post) -> modelMapper.map(post, PostDTO.class))
+                .collect(Collectors.toList());
     }
 }

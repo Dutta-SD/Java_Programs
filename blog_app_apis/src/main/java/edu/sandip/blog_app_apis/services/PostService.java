@@ -1,6 +1,5 @@
 package edu.sandip.blog_app_apis.services;
 
-import edu.sandip.blog_app_apis.entities.Post;
 import edu.sandip.blog_app_apis.payloads.PostApiGetMethodResponse;
 import edu.sandip.blog_app_apis.payloads.PostDTO;
 
@@ -16,22 +15,19 @@ public interface PostService {
     /* Delete Post */
     void deletePost(Integer postId);
 
-    /*
-     Get Methods
-     get all posts
-    */
-    PostApiGetMethodResponse getAllPost(Integer pageNumber, Integer pageSize);
+    /* Get Methods */
+    PostApiGetMethodResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy);
 
     /* Get single Post */
     PostDTO getPostById(Integer postId);
 
     /* Get All post by category */
-    List<PostDTO> getPostsByCategory(Integer categoryId);
+    PostApiGetMethodResponse getPostsByCategory(Integer categoryId, Integer pageNumber, Integer pageSize, String sortBy);
 
     /* Get All posts by user */
-    List<PostDTO> getPostsByUser(Integer userId);
+    PostApiGetMethodResponse getPostsByUser(Integer userId, Integer pageNumber, Integer pageSize, String sortBy);
 
     /* Search */
-    List<Post> searchPosts(String keyword);
+    List<PostDTO> searchPosts(String keyword);
 
 }

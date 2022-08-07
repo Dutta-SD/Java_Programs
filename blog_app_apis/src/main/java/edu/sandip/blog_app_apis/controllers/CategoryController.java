@@ -4,6 +4,7 @@ package edu.sandip.blog_app_apis.controllers;
 import edu.sandip.blog_app_apis.payloads.ApiResponse;
 import edu.sandip.blog_app_apis.payloads.CategoryDTO;
 import edu.sandip.blog_app_apis.services.CategoryService;
+import edu.sandip.blog_app_apis.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,8 +58,13 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Integer categoryId) {
         System.out.println(categoryService.getClass());
         categoryService.deleteCategory(categoryId);
-        ApiResponse successDeletedResponse = new ApiResponse();
-        successDeletedResponse.setMessage("Resource Deleted Successfully");
+        ApiResponse successDeletedResponse = getSuccessfulDeleteApiResponse();
         return new ResponseEntity<>(successDeletedResponse, HttpStatus.OK);
+    }
+
+    private ApiResponse getSuccessfulDeleteApiResponse() {
+        ApiResponse successDeletedResponse = new ApiResponse();
+        successDeletedResponse.setMessage(Constants.RESOURCE_DELETED_SUCCESSFULLY);
+        return successDeletedResponse;
     }
 }

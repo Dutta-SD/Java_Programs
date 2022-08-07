@@ -1,5 +1,6 @@
 package edu.sandip.blog_app_apis.entities;
 
+import edu.sandip.blog_app_apis.utils.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,17 +21,17 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "categories")
+@Table(name = Constants.CATEGORIES_TABLE_NAME)
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = Constants.CATEGORY_ID)
     private Integer categoryId;
 
-    @Column(name = "title", length = 100, nullable = false, unique = true)
+    @Column(name = Constants.CATEGORY_NAME, length = Constants.CATEGORY_NAME_MAX_LENGTH, nullable = false, unique = true)
     private String categoryName;
 
-    @Column(name = "description", length = 100)
+    @Column(name = Constants.CATEGORY_DESCRIPTION, length = Constants.CATEGORY_DESCRIPTION_MAX_LENGTH)
     private String categoryDescription;
 
 
@@ -39,7 +40,7 @@ public class Category {
     /* Cascade -- If parent removed then remove child  */
     /* fetch -- Lazy loading.. No unnecessary */
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = Constants.CATEGORY_TO_POST_MAPPED_COLUMN, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts;
 
 }

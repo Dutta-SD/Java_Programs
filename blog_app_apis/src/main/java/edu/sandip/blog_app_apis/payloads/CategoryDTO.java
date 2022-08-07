@@ -1,5 +1,6 @@
 package edu.sandip.blog_app_apis.payloads;
 
+import edu.sandip.blog_app_apis.utils.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,9 +17,9 @@ public class CategoryDTO {
     private Integer categoryId;
 
     @NotEmpty
-    @Size(max = 100)
+    @Size(max = Constants.CATEGORY_NAME_MAX_LIMIT)
     private String categoryName;
 
-    @Size(max = 100)
+    @Size(max = Constants.CATEGORY_DESCRIPTION_MAX_LIMIT)
     private String categoryDescription;
 }

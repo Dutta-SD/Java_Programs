@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "posts")
+@Table(name = Constants.POSTS_TABLE_NAME)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,7 +26,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer postId;
 
-    @Column(name = "post_title", length = Constants.MAX_POST_LENGTH, nullable = false)
+    @Column(name = Constants.POST_TITLE_NAME, length = Constants.MAX_POST_LENGTH, nullable = false)
     private String title;
 
     @Column(length = Constants.MAX_POST_CONSTANT_LENGTH)
@@ -36,7 +36,7 @@ public class Post {
 
     /* Many to one. JPA manages automatically. Any confusion, see ER diagram*/
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = Constants.POST_TO_CATEGORY_JOIN_COLUMN)
     private Category category;
 
     @ManyToOne

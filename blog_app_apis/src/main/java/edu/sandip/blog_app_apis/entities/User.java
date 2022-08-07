@@ -1,5 +1,6 @@
 package edu.sandip.blog_app_apis.entities;
 
+import edu.sandip.blog_app_apis.utils.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,19 +22,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = Constants.USERS_TABLE_NAME)
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(name = Constants.USER_ID_COL, nullable = false)
     private Integer id;
 
-    @Column(name = "user_name", nullable = false, length = 100)
+    @Column(name = Constants.USER_NAME_COLUMN_NAME, nullable = false, length = Constants.USER_NAME_MAX_LENGTH)
     private String name;
     private String email;
     private String password;
     private String about;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = Constants.USER_TO_POSTS_MAPPED_COLUMN, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts;
 }

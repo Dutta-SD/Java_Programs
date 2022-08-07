@@ -1,5 +1,6 @@
 package edu.sandip.blog_app_apis.payloads;
 
+import edu.sandip.blog_app_apis.utils.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,14 +24,18 @@ public class UserDTO {
     private Integer id;
 
     @NotEmpty
-    @Size(min = 4, message = "userName Must be minimum 4 characters")
+    @Size(min = Constants.USERNAME_MIN_LIMIT, message = Constants.USER_NAME_INVALID_MESSAGE)
     private String name;
 
-    @Email(message = "Your Email is Invalid.. Please check it")
+    @Email(message = Constants.EMAIL_INVALID_MESSAGE)
     private String email;
 
     @NotEmpty
-    @Size(min = 3, max = 10, message = "password must be min 3 characters and maximum of 10 chars")
+    @Size(
+            min = Constants.PASSWORD_MIN_LIMIT,
+            max = Constants.PASSWORD_MAX_LIMIT,
+            message = Constants.PASSWORD_INVALID_MESSAGE
+    )
     private String password;
 
     @NotNull

@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
         Category newCategory = modelMapper.map(categoryDTO, Category.class);
         Category savedCategory = categoryRepository.save(newCategory);
-        return modelMapper.map(savedCategory, CategoryDTO.class);
+        return convertCategoryToCategoryDTO(savedCategory);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category categoryById = categoryRepository
                 .findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
-        return modelMapper.map(categoryById, CategoryDTO.class);
+        return convertCategoryToCategoryDTO(categoryById);
     }
 
     @Override
@@ -49,8 +49,12 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository
                 .findAll()
                 .stream()
-                .map(category -> modelMapper.map(category, CategoryDTO.class))
+                .map(this::convertCategoryToCategoryDTO)
                 .collect(Collectors.toList());
+    }
+
+    private CategoryDTO convertCategoryToCategoryDTO(Category category) {
+        return modelMapper.map(category, CategoryDTO.class);
     }
 
     @Override
@@ -61,7 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
         modelMapper.map(categoryDTO, toModifyCategory);
         toModifyCategory.setCategoryId(categoryId);
         Category updatedCategory = categoryRepository.save(toModifyCategory);
-        return modelMapper.map(updatedCategory, CategoryDTO.class);
+        return convertCategoryToCategoryDTO(updatedCategory);
     }
 
     @Override
