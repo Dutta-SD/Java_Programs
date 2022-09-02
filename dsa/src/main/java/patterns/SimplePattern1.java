@@ -1,0 +1,29 @@
+package patterns;
+/*
+ * *****
+ * *****
+ * *****
+ * *****
+ * *****
+ */
+
+import java.util.Scanner;
+
+public class SimplePattern1 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int numOfLines = scanner.nextInt();
+        int numCharPerLine = scanner.nextInt();
+        printPattern(numOfLines, numCharPerLine);
+    }
+
+    private static void printPattern(int numOfLines, int numCharPerLine) {
+        for (int lineNo = 0; lineNo < numOfLines; lineNo++) {
+            for (int charNo = 0; charNo < numCharPerLine; charNo++) {
+                System.out.print('*');
+            }
+            System.out.print("\n");
+        }
+    }
+}
