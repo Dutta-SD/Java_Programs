@@ -1,4 +1,4 @@
-package recursion;
+package dsa.recursion;
 
 public class PalindromeCheck {
     public static void main(String[] args) {

@@ -1,8 +1,8 @@
-package patterns;
+package dsa.patterns;
 
 import java.util.Scanner;
 
-public class SimplePattern3 {
+public class SimplePattern6 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int numOfLines = scanner.nextInt();
@@ -12,8 +12,8 @@ public class SimplePattern3 {
 
     private static void printPattern(int numOfLines, int numCharPerLine) {
         for (int lineNo = 0; lineNo < numOfLines; lineNo++) {
-            for (int charNo = 0; charNo < lineNo + 1; charNo++) {
-                System.out.print(charNo + 1);
+            for (int charNo = numOfLines - lineNo; charNo > 0; charNo--) {
+                System.out.print(numCharPerLine - charNo + 1 - lineNo);
             }
             System.out.print("\n");
         }

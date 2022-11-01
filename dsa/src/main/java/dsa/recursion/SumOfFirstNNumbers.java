@@ -1,4 +1,4 @@
-package recursion;
+package dsa.recursion;
 
 public class SumOfFirstNNumbers {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package recursion;
+package dsa.recursion;
 
 public class RecursionSimpleProblems {
     static int count;
