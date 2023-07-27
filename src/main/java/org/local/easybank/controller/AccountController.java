@@ -1,4 +1,4 @@
-package org.local.securitybasics.controller;
+package org.local.easybank.controller;
 
 
 import lombok.RequiredArgsConstructor;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class SampleController {
+public class AccountController {
 
-    @GetMapping(value = "/welcome")
-    public String sampleApi() {
-        return "Welcome to this page";
+    @GetMapping(value = "/account")
+    public String getAccountDetails() {
+        return "Here are your account details";
     }
 }
