@@ -13,8 +13,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain makeProjectSecurityConfig(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> auth.anyRequest()
-                        .authenticated())
+        return http.authorizeHttpRequests(auth -> auth.requestMatchers("/account/**", "/balance/**")
+                        .authenticated()
+                        .requestMatchers("/contact", "/notices")
+                        .permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .build();
