@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.local.easybank.entity.EasyBankUser;
 import org.local.easybank.repository.EasyBankUserRepository;
+import org.local.easybank.utils.Utilities;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,16 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     private final EasyBankUserRepository easyBankUserRepository;
+    private final Utilities utilities;
 
     @PostMapping("/register")
     public ResponseEntity<Object> registerNewUser(@RequestBody EasyBankUser user) {
         try {
+            user.setPassword(utilities.getEncodedPassword(user.getPassword()));
             EasyBankUser save = easyBankUserRepository.save(user);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(save);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
+                    .body(e.getMessage());
         }
     }
 }
