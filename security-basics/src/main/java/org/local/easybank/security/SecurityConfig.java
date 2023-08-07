@@ -19,7 +19,7 @@ public class SecurityConfig {
     public SecurityFilterChain makeProjectSecurityConfig(HttpSecurity http) throws Exception {
         return http
                 .cors(AbstractHttpConfigurer::disable) // TODO: Change using Bean
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/contact", "/notices"))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/account/**", "/balance/**")
                         .authenticated()
                         .requestMatchers("/contact", "/notices", "/register")
